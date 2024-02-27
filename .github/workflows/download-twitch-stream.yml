@@ -7,6 +7,10 @@ on:
         description: 'Twitch Stream URL'
         required: true
         default: 'https://www.twitch.tv/smallant'
+      minute_splits:
+        description: 'Download Intervals'
+        required: true
+        default: "10"
 
 jobs:
   download:
