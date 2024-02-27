@@ -35,7 +35,7 @@ jobs:
     - name: Download Stream Segment
       # Attempt to limit download time; this is more illustrative than functional
       # as yt-dlp does not have a built-in way to limit download duration directly
-      run: timeout 300 yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+      run: yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" --max-filesize 1872m ${{ github.event.inputs.stream_url }}
 
     - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
