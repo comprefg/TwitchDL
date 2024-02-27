@@ -27,20 +27,18 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y ffmpeg
       
     - name: Extract Stream Title
-      id: sanitize-title
-        run:|
-          STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }} | sed 's/[":<>|*?\\/\r\n]/-/g')
-          echo "SANITIZED_STREAM_TITLE=$STREAM_TITLE" >> $GITHUB_ENV
+      id: extract-title
+      run: echo "STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }})" >> $GITHUB_ENV
+
+    - name: Sanitize Stream Title
+      run: |
+        echo "SANITIZED_TITLE=$(echo $STREAM_TITLE | sed 's/[":<>|*?\\/\r\n]//g')" >> $GITHUB_ENV
 
     - name: Download Stream Segment
-      # Attempt to limit download time; this is more illustrative than functional
-      # as yt-dlp does not have a built-in way to limit download duration directly
-      run: yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+      run: yt-dlp -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
 
     - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.STREAM_TITLE }}
+        name: ${{ env.SANITIZED_TITLE }}
         path: ./*
-        
- 
