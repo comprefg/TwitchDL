@@ -35,7 +35,7 @@ jobs:
         echo "SANITIZED_TITLE=$(echo $STREAM_TITLE | sed 's/[":<>|*?\\/\r\n]//g')" >> $GITHUB_ENV
 
     - name: Download Stream Segment
-      run: yt-dlp -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+      run: timeout 5m yt-dlp -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
 
     - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
