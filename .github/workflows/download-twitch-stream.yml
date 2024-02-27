@@ -1,0 +1,35 @@
+name: Download Twitch Stream
+
+on:
+  workflow_dispatch:
+    inputs:
+      stream_url:
+        description: 'Twitch Stream URL'
+        required: true
+        default: 'https://www.twitch.tv/smallant'
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install yt-dlp
+      run: python -m pip install --upgrade yt-dlp
+
+    - name: Download Twitch Stream
+      run: yt-dlp -o "%(title)s.%(ext)s" ${{ github.event.inputs.stream_url }}
+      
+
+    - name: Upload to GitHub Artifacts (optional)
+      uses: actions/upload-artifact@v2
+      with:
+        name: downloaded-stream
+        path: ./*
+        if-no-files-found: error # 'warn' or 'ignore' are also available, 'error' is the default
