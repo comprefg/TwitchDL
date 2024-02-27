@@ -7,6 +7,11 @@ on:
         description: 'Twitch Stream URL'
         required: true
         default: 'https://www.twitch.tv/smallant'
+
+      timeout:
+        description: 'timeout'
+        required: true
+        default: '5h'
         
 jobs:
   download:
@@ -35,7 +40,7 @@ jobs:
         echo "SANITIZED_TITLE=$(echo $STREAM_TITLE | sed 's/[":<>|*?\\/\r\n]//g')" >> $GITHUB_ENV
 
     - name: Download Stream Segment
-      run: timeout 5m yt-dlp -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+      run: timeout ${{ github.event.inputs.timeour }} yt-dlp -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
 
     - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
