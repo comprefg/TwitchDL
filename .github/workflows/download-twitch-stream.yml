@@ -49,7 +49,7 @@ jobs:
         echo "SANITIZED_TITLE=$(echo $STREAM_TITLE | sed 's/[":<>|*?\\/\r\n]//g')" >> $GITHUB_ENV
 
     - name: Download Stream Segment
-      run: timeout ${{ github.event.inputs.timeout }} yt-dlp --hls-use-mpegts -S ${{ github.event.inputs.resolution }} -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+      run: timeout ${{ github.event.inputs.timeout }} yt-dlp --hls-use-mpegts -S ${{ github.event.inputs.resolution }},filesize:ascending -o "${{ env.SANITIZED_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
       continue-on-error: true
 
     - name: Upload Stream as Artifact
