@@ -19,7 +19,7 @@ on:
       resolution:
         description: 'Desired resolution (e.g., 1280x720)'
         required: false
-        default: 'res:480'
+        default: 'res:1280'
 
         
 jobs:
