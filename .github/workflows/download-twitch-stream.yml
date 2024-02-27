@@ -7,6 +7,11 @@ on:
         description: 'Twitch Stream URL'
         required: true
         default: 'https://www.twitch.tv/smallant'
+        
+      max_size:
+        description: 'max size in mb'
+        required: true
+        default: '936m'
 
 jobs:
   download:
@@ -48,6 +53,6 @@ jobs:
           -H "Authorization: token ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/comprefg/TwitchDL/actions/workflows/download-twitch-stream/dispatches \
-          -d '{"ref":"REF", "inputs": {"stream_url": "https://www.twitch.tv/smallant"}}'
+          -d '{"ref":"REF", "inputs": {"stream_url": "https://www.twitch.tv/smallant","max_size": "936m"}}'
       env:
         YOUR_PERSONAL_ACCESS_TOKEN: ${{ secrets.YOUR_GITHUB_TOKEN }}
