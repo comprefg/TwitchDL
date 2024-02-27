@@ -1,4 +1,4 @@
-name: Download Twitch Stream
+name: Download Youtube Video
 
 on:
   workflow_dispatch:
@@ -7,8 +7,6 @@ on:
         description: 'Twitch Stream URL'
         required: true
         default: 'https://www.twitch.tv/smallant'
-  schedule:
-    - cron: '*/5 * * * *' # Runs every 10 minutes, adjust the timing here as needed
 
 jobs:
   download:
@@ -32,10 +30,8 @@ jobs:
       id: extract-title
       run: echo "STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }})" >> $GITHUB_ENV
 
-    - name: Download Stream Segment
-      # Attempt to limit download time; this is more illustrative than functional
-      # as yt-dlp does not have a built-in way to limit download duration directly
-      run: timeout 300 yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+    - name: Download Stream
+      run: yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
 
     - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
