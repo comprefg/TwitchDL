@@ -26,13 +26,15 @@ jobs:
     - name: Install FFmpeg
       run: sudo apt-get update && sudo apt-get install -y ffmpeg
       
-    - name: Download Twitch Stream
-      run: yt-dlp -o "%(title)s.%(ext)s" ${{ github.event.inputs.stream_url }}
-      
+    - name: Extract Stream Title
+      id: extract-title
+      run: echo "STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }})" >> $GITHUB_ENV
 
-    - name: Upload to GitHub Artifacts (optional)
+    - name: Download Stream
+      run: yt-dlp -o "${{ env.STREAM_TITLE }}.%(ext)s" ${{ github.event.inputs.stream_url }}
+
+    - name: Upload Stream as Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.event.inputs.stream_url }}
+        name: ${{ env.STREAM_TITLE }}
         path: ./*
-        if-no-files-found: error # 'warn' or 'ignore' are also available, 'error' is the default
