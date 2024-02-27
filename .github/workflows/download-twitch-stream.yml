@@ -33,6 +33,6 @@ jobs:
     - name: Upload to GitHub Artifacts (optional)
       uses: actions/upload-artifact@v2
       with:
-        name: downloaded-stream
+        name: ${{ github.event.inputs.stream_url }}
         path: ./*
         if-no-files-found: error # 'warn' or 'ignore' are also available, 'error' is the default
