@@ -7,10 +7,8 @@ on:
         description: 'Twitch Stream URL'
         required: true
         default: 'https://www.twitch.tv/smallant'
-      minute_splits:
-        description: 'Download Intervals'
-        required: true
-        default: "10"
+  schedule:
+    - cron: '*/5 * * * *' # Runs every 10 minutes, adjust the timing here as needed
 
 jobs:
   download:
