@@ -28,7 +28,10 @@ jobs:
       
     - name: Extract Stream Title
       id: extract-title
-      run: echo "STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }})" >> $GITHUB_ENV
+      run: |
+          STREAM_TITLE=$(yt-dlp --get-title ${{ github.event.inputs.stream_url }})
+          SANITIZED_TITLE=$(echo "$STREAM_TITLE" | sed 's/[":<>|*?\r\n\\\/]/-/g')
+          echo "SANITIZED_TITLE=$SANITIZED_TITLE" >> $GITHUB_ENV
 
     - name: Download Stream Segment
       # Attempt to limit download time; this is more illustrative than functional
