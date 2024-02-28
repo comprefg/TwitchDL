@@ -10,7 +10,7 @@ on:
       timeout:
         description: 'timeout'
         required: true
-        default: '5h'
+        default: '4h'
       bitrate:
         description: 'Desired bitrate (e.g., 800k for 800 kb/s)'
         required: false
